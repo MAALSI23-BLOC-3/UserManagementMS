@@ -30,5 +30,6 @@ import { User } from './users/entities/user.entity';
     UsersModule,
     AuthModule,
   ],
+  // controllers: [AppController],
 })
 export class AppModule {}

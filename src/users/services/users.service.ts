@@ -21,7 +21,9 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto | CreateAdminDto) {
+  async create(
+    createUserDto: CreateUserDto | CreateAdminDto,
+  ): Promise<Partial<User>> {
     const user = await this.userRepository.findOneBy({
       email: createUserDto.email,
     });
@@ -36,6 +38,7 @@ export class UsersService {
     delete saveUser.password;
     // @ts-ignore
     delete saveUser.refreshToken;
+
     return saveUser;
   }
 
@@ -70,18 +73,16 @@ export class UsersService {
       ...updateUserDto,
     });
     if (!user) {
-      throw new NotFoundException(`User with id ${id} does not exist`);
+      return null;
     }
     return this.userRepository.save(user);
   }
 
   async remove(id: number) {
     const user = await this.userRepository.findOneBy({ id });
-
     if (!user) {
-      throw new NotFoundException(`User with id ${id} does not exist`);
+      return null;
     }
-
     return this.userRepository.remove(user);
   }
 
@@ -109,7 +110,10 @@ export class UsersService {
     );
   }
 
-  async getUserIfRefreshTokenMatches(refreshToken: string, userId: number) {
+  async getUserIfRefreshTokenMatches(
+    refreshToken: string,
+    userId: number,
+  ): Promise<{ id: number; role: string } | undefined> {
     const user = await this.userRepository.findOne({
       select: ['id', 'refreshToken', 'role'],
       where: { id: userId },

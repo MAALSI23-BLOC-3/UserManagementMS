@@ -28,7 +28,7 @@ import {
 import { UsersService } from '../services/users.service';
 
 @ApiTags('users') // put the name of the controller in swagger
-@Controller('users')
+@Controller()
 @UseGuards(JwtAuthGuard, RolesGuard) //  makes the all routs as private by default
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
