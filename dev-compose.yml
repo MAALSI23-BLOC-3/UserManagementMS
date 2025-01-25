@@ -8,7 +8,8 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 services:
-  server:
+  nestjs:
+    container_name: nestjs
     build:
       context: .
       dockerfile: dev.dockerfile
@@ -21,10 +22,11 @@ services:
     # to set the database password. You must create `db/password.txt` and add
     # a password of your choosing to it before running `docker-compose up`.
     depends_on:
-      db:
+      postgress-db:
         condition: service_healthy
-  db:
+  postgress-db:
     image: postgres:latest
+    container_name: postgress-db
     restart: always
     environment:
       POSTGRES_DB: template
@@ -34,18 +36,19 @@ services:
       - 5432:5432
 
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U myuser']
+      test: ['CMD-SHELL', 'pg_isready -U templateUser']
       interval: 5s
       timeout: 10s
       retries: 10
 
   adminer:
     image: adminer
+    container_name: adminer
     restart: always
     ports:
       - 8080:8080
     depends_on:
-      db:
+      postgress-db:
         condition: service_healthy
 # volumes:
 #   db-data:
