@@ -66,3 +66,4 @@ jobs:
         with:
           name: zap-reports
           path: /home/zap/reports
+          token: ${{ secrets.GITHUB_TOKEN }}
