@@ -1,0 +1,46 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: CI Dev
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  unit_integration_e2e_tests:
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_unit_int.yml@develop
+    with:
+      node-version: 22.x
+  # e2e_tests:
+  #     strategy:
+  #         matrix:
+  #             node-version: [22.x]
+  #     uses: Breizhsport-cesi-pau/breizhsport-front/.github/workflows/test.e2e.yml@develop
+  #     with:
+  #         node-version: ${{ matrix.node-version }}
+  quality_tests:
+    needs: [unit_integration_e2e_tests]
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@develop
+    secrets:
+      SONAR_CLOUD_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    with:
+      coverage_folder: ./coverage
+      coverage_artifact_name: coverage
+  # publish_to_docker_push_event:
+  #     needs: [unit_and_integration_tests, e2e_tests, quality_tests]
+  #     uses: Breizhsport-cesi-pau/breizhsport-front/.github/workflows/publish.docker.yml@develop
+  #     secrets:
+  #         tags: ${{ secrets.DOCKER_USERNAME }}/breizhsport-front:develop
+  #         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  #         DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
+  #     if: github.event_name != 'pull_request'
+  # publish_to_docker_pr_event:
+  #     needs: [unit_and_integration_tests, e2e_tests, quality_tests]
+  #     uses: Breizhsport-cesi-pau/breizhsport-front/.github/workflows/publish.docker.yml@develop
+  #     secrets:
+  #         tags: ${{ secrets.DOCKER_USERNAME }}/breizhsport-front:develop-pr-${{ github.event.number }}
+  #         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  #         DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
+  #     if: github.event_name == 'pull_request'
