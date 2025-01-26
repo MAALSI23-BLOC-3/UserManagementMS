@@ -24,14 +24,6 @@ jobs:
   #     with:
   #         node-version: ${{ matrix.node-version }}
 
-  echo_token:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Echo Token
-        run: echo ${{ secrets.SONAR_TOKEN }}
-
   quality_tests:
     needs: [unit_integration_e2e_tests]
     uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@develop
