@@ -3,7 +3,7 @@ name: Quality tests
 on:
   workflow_call:
     secrets:
-      SONAR_CLOUD_TOKEN:
+      SONAR_TOKEN:
         required: true
     inputs:
       coverage_artifact_name:
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo Sonar Token
-        run: echo ${{ secrets.SONAR_CLOUD_TOKEN }}
+        run: echo ${{ secrets.SONAR_TOKEN }}
 
       - name: Checkout code
         uses: actions/checkout@v4

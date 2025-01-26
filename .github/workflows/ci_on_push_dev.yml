@@ -26,7 +26,7 @@ jobs:
     needs: [unit_integration_e2e_tests]
     uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@develop
     secrets:
-      SONAR_CLOUD_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     with:
       coverage_folder: ./coverage
       coverage_artifact_name: coverage
