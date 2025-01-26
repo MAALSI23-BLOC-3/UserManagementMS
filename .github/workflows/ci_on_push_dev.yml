@@ -31,14 +31,12 @@ jobs:
     with:
       coverage_folder: ./coverage
       coverage_artifact_name: coverage
-  # publish_to_docker_push_event:
-  #     needs: [unit_and_integration_tests, e2e_tests, quality_tests]
-  #     uses: Breizhsport-cesi-pau/breizhsport-front/.github/workflows/publish.docker.yml@develop
-  #     secrets:
-  #         tags: ${{ secrets.DOCKER_USERNAME }}/breizhsport-front:develop
-  #         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  #         DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
-  #     if: github.event_name != 'pull_request'
+
+  security_tests:
+    needs: [unit_integration_e2e_tests]
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_security.yml@develop
+    secrets: inherit
+
   # publish_to_docker_pr_event:
   #     needs: [unit_and_integration_tests, e2e_tests, quality_tests]
   #     uses: Breizhsport-cesi-pau/breizhsport-front/.github/workflows/publish.docker.yml@develop
