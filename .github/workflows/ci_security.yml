@@ -5,6 +5,20 @@ on: workflow_call
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+      ENABLE_CORS: true
+      PORT: 3000
+      DATABASE_PORT: 5432
+      POSTGRES_DB: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+      POSTGRES_HOST: postgres
+      JWT_SECRET: c55347bb633ce8d0f4824b017f70ddb0e0336b789a5dbf7449b54af155eaf973
+      JWT_REFRESH_SECRET: c08f7fd6b67152afac129cd5162959ec52576603a0d253c4b2a447dd8972f551
+      ACCESS_TOKEN_EXPIRATION: 1d
+      REFRESH_TOKEN_EXPIRATION: 1y
+
     services:
       postgres:
         image: postgres:latest
@@ -28,19 +42,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ inputs.node-version }}
-        env:
-          NODE_ENV: test
-          ENABLE_CORS: true
-          PORT: 3000
-          DATABASE_PORT: 5432
-          POSTGRES_DB: test
-          POSTGRES_PASSWORD: test
-          POSTGRES_USER: test
-          POSTGRES_HOST: postgres
-          JWT_SECRET: c55347bb633ce8d0f4824b017f70ddb0e0336b789a5dbf7449b54af155eaf973
-          JWT_REFRESH_SECRET: c08f7fd6b67152afac129cd5162959ec52576603a0d253c4b2a447dd8972f551
-          ACCESS_TOKEN_EXPIRATION: 1d
-          REFRESH_TOKEN_EXPIRATION: 1y
 
       - name: Install dependencies
         run: npm install
