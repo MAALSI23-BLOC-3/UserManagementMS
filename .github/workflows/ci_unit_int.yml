@@ -1,12 +1,11 @@
 name: Integration
 
 on:
-  push:
-    branches:
-      - develop
-  pull_request:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
 
 jobs:
   build_and_test:
