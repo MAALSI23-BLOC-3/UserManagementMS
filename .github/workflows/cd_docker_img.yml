@@ -32,4 +32,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/maalsi23-bloc3/usermanagementms:latest, ${{ env.REGISTRY }}/maalsi23-bloc3/usermanagementms:${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/maalsi23-bloc-3/usermanagementms:latest, ${{ env.REGISTRY }}/maalsi23-bloc3/usermanagementms:${{ github.sha }}
