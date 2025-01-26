@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Verify Sonar Token
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           if [ -n "$SONAR_TOKEN" ]; then
             echo "Sonar token is set and has $(echo -n $SONAR_TOKEN | wc -c) characters."
