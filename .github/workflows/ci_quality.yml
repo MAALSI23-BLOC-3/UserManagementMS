@@ -17,8 +17,8 @@ jobs:
     name: SonarQube
     runs-on: ubuntu-latest
     steps:
-      - name: Echo Sonar Token
-        run: echo ${{ secrets.SONAR_TOKEN }}
+      - name: Verify Sonar Token
+        run: echo "Sonar token length: ${#SONAR_TOKEN}"
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,7 +29,11 @@ jobs:
           name: ${{inputs.coverage_artifact_name}}
           path: ${{inputs.coverage_folder}}
 
+      - name: List coverage files
+        run: ls -R ${{ inputs.coverage_folder }}
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        args: -X
