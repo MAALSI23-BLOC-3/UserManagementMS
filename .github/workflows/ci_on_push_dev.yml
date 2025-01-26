@@ -15,6 +15,7 @@ jobs:
       node-version: 22.x
       coverage_folder: ./coverage
       coverage_artifact_name: coverage
+
   # e2e_tests:
   #     strategy:
   #         matrix:
