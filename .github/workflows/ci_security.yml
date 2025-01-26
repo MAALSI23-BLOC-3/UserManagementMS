@@ -65,7 +65,6 @@ jobs:
           target: 'http://127.0.0.1:3000'
           fail-action: false
           allow_issue_writing: false
-          art
 
         # Step 4: Upload ZAP reports as artifacts
       - name: Download ZAP Report
