@@ -25,7 +25,6 @@ jobs:
       NODE_ENV: test
       ENABLE_CORS: true
       PORT: 3000
-      NODE_ENV: dev
       DATABASE_PORT: 5432
       POSTGRES_DB: test
       POSTGRES_PASSWORD: test
@@ -80,7 +79,7 @@ jobs:
   #       uses: SonarSource/sonarcloud-github-action@v3.1.0
   #       env:
   #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACK }}
-  
+
   # QualityFront:
   #   needs: [Backend, Frontend]
   #   runs-on: ubuntu-latest
