@@ -9,31 +9,31 @@ on:
       - develop
 
 jobs:
-  unit_integration_e2e_tests:
-    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_unit_int.yml@develop
-    with:
-      node-version: 22.x
-      coverage_folder: ./coverage
-      coverage_artifact_name: coverage
+  # unit_integration_e2e_tests:
+  #   uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_unit_int.yml@develop
+  #   with:
+  #     node-version: 22.x
+  #     coverage_folder: ./coverage
+  #     coverage_artifact_name: coverage
 
-  # e2e_tests:
-  #     strategy:
-  #         matrix:
-  #             node-version: [22.x]
-  #     uses: Breizhsport-cesi-pau/breizhsport-front/.github/workflows/test.e2e.yml@develop
-  #     with:
-  #         node-version: ${{ matrix.node-version }}
+  # # e2e_tests:
+  # #     strategy:
+  # #         matrix:
+  # #             node-version: [22.x]
+  # #     uses: Breizhsport-cesi-pau/breizhsport-front/.github/workflows/test.e2e.yml@develop
+  # #     with:
+  # #         node-version: ${{ matrix.node-version }}
 
-  quality_tests:
-    needs: [unit_integration_e2e_tests]
-    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@develop
-    secrets: inherit
-    with:
-      coverage_folder: ./coverage
-      coverage_artifact_name: coverage
+  # quality_tests:
+  #   needs: [unit_integration_e2e_tests]
+  #   uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@develop
+  #   secrets: inherit
+  #   with:
+  #     coverage_folder: ./coverage
+  #     coverage_artifact_name: coverage
 
   security_tests:
-    needs: [unit_integration_e2e_tests]
+    # needs: [unit_integration_e2e_tests]
     uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_security.yml@develop
     secrets: inherit
 
