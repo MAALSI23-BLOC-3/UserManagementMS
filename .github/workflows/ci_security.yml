@@ -68,6 +68,6 @@ jobs:
 
         # Step 4: Upload ZAP reports as artifacts
       - name: Download ZAP Report
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: zap-scan
