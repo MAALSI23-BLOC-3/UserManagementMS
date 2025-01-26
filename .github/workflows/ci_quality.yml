@@ -18,7 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Verify Sonar Token
-        run: echo "Sonar token length: ${#SONAR_TOKEN}"
+        run: |
+          if [ -n "$SONAR_TOKEN" ]; then
+            echo "Sonar token is set and has $(echo -n $SONAR_TOKEN | wc -c) characters."
+          else
+            echo "SONAR_TOKEN is not set."
+          fi
 
       - name: Checkout code
         uses: actions/checkout@v4
