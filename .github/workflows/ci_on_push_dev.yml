@@ -22,6 +22,7 @@ jobs:
   # #             node-version: [22.x]
   # #     uses: Breizhsport-cesi-pau/breizhsport-front/.github/workflows/test.e2e.yml@develop
   # #     with:
+
   # #         node-version: ${{ matrix.node-version }}
 
   quality_tests:
