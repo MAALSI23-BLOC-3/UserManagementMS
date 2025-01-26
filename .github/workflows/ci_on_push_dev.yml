@@ -36,6 +36,8 @@ jobs:
     # needs: [unit_integration_e2e_tests]
     uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_security.yml@develop
     secrets: inherit
+    with:
+      node-version: 22.x
 
   # publish_to_docker_pr_event:
   #     needs: [unit_and_integration_tests, e2e_tests, quality_tests]
