@@ -17,15 +17,15 @@ jobs:
     name: SonarQube
     runs-on: ubuntu-latest
     steps:
-    - name: Echo Sonar Token
-      run: echo "Sonar Token: ${{ secrets.SONAR_CLOUD_TOKEN }}"
-    - uses: actions/checkout@v4
-    - name: Donwload coverage
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{inputs.coverage_artifact_name}}
-        path: ${{inputs.coverage_folder}}
-    - name: SonarQube Scan
-      uses: SonarSource/sonarqube-scan-action@v4
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+      - name: Echo Sonar Token
+        run: echo "Sonar Token: ${{ secrets.SONAR_CLOUD_TOKEN }}"
+      - uses: actions/checkout@v4
+      - name: Donwload coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{inputs.coverage_artifact_name}}
+          path: ${{inputs.coverage_folder}}
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
