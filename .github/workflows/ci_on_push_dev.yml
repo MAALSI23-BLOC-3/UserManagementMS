@@ -9,12 +9,12 @@ on:
       - develop
 
 jobs:
-  # unit_integration_e2e_tests:
-  #   uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_unit_int.yml@develop
-  #   with:
-  #     node-version: 22.x
-  #     coverage_folder: ./coverage
-  #     coverage_artifact_name: coverage
+  unit_integration_e2e_tests:
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_unit_int.yml@develop
+    with:
+      node-version: 22.x
+      coverage_folder: ./coverage
+      coverage_artifact_name: coverage
 
   # # e2e_tests:
   # #     strategy:
@@ -24,26 +24,22 @@ jobs:
   # #     with:
   # #         node-version: ${{ matrix.node-version }}
 
-  # quality_tests:
-  #   needs: [unit_integration_e2e_tests]
-  #   uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@develop
-  #   secrets: inherit
-  #   with:
-  #     coverage_folder: ./coverage
-  #     coverage_artifact_name: coverage
+  quality_tests:
+    needs: [unit_integration_e2e_tests]
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@develop
+    secrets: inherit
+    with:
+      coverage_folder: ./coverage
+      coverage_artifact_name: coverage
 
   security_tests:
-    # needs: [unit_integration_e2e_tests]
+    needs: [unit_integration_e2e_tests]
     uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_security.yml@develop
     secrets: inherit
     with:
       node-version: 22.x
 
-  # publish_to_docker_pr_event:
-  #     needs: [unit_and_integration_tests, e2e_tests, quality_tests]
-  #     uses: Breizhsport-cesi-pau/breizhsport-front/.github/workflows/publish.docker.yml@develop
-  #     secrets:
-  #         tags: ${{ secrets.DOCKER_USERNAME }}/breizhsport-front:develop-pr-${{ github.event.number }}
-  #         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  #         DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
-  #     if: github.event_name == 'pull_request'
+  publish_to_docker_pr_event:
+    needs: [unit_integration_e2e_tests, quality_tests, security_tests]
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/cd_docker_img.yml@develop
+    secrets: inherit
