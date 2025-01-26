@@ -12,6 +12,7 @@ on:
       coverage_folder:
         type: string
         required: true
+
 jobs:
   sonarqube:
     name: SonarQube
