@@ -13,6 +13,8 @@ jobs:
     uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_unit_int.yml@develop
     with:
       node-version: 22.x
+      coverage_folder: ./coverage
+      coverage_artifact_name: coverage
   # e2e_tests:
   #     strategy:
   #         matrix:

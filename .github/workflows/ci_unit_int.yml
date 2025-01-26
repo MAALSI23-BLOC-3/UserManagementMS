@@ -6,6 +6,12 @@ on:
       node-version:
         required: true
         type: string
+      coverage_folder:
+        required: true
+        type: string
+      coverage_artifact_name:
+        required: true
+        type: string
 
 jobs:
   build_and_test:
@@ -62,8 +68,8 @@ jobs:
       - name: Upload Coverage Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-repport
-          path: coverage
+          name: ${{ inputs.coverage_artifact_name }}
+          path: ${{ inputs.coverage_folder }}
           retention-days: 3
           include-hidden-files: true
 
