@@ -61,6 +61,7 @@ jobs:
 
         # Step 4: Upload ZAP reports as artifacts
       - name: Upload ZAP Reports
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: zap-reports
