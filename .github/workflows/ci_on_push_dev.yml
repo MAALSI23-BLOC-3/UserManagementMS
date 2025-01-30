@@ -16,15 +16,6 @@ jobs:
       coverage_folder: ./coverage
       coverage_artifact_name: coverage
 
-  # # e2e_tests:
-  # #     strategy:
-  # #         matrix:
-  # #             node-version: [22.x]
-  # #     uses: Breizhsport-cesi-pau/breizhsport-front/.github/workflows/test.e2e.yml@develop
-  # #     with:
-
-  # #         node-version: ${{ matrix.node-version }}
-
   quality_tests:
     needs: [unit_integration_e2e_tests]
     uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@develop
