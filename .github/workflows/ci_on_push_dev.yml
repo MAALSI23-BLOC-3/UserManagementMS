@@ -34,4 +34,6 @@ jobs:
   publish_to_docker_pr_event:
     needs: [unit_integration_e2e_tests, quality_tests, security_tests]
     uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/cd_docker_img.yml@develop
+    with:
+      name: 'usermanagementms'
     secrets: inherit
