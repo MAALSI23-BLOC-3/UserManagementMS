@@ -6,6 +6,12 @@ on:
       name:
         type: string
         required: true
+      repo_path:
+        type: string
+        required: true
+      file_name:
+        type: string
+        required: true
 
 env:
   REGISTRY: ghcr.io
@@ -37,4 +43,28 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/maalsi23-bloc-3/${{ inputs.name }}:latest, ${{ env.REGISTRY }}/maalsi23-bloc-3/usermanagementms:${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/maalsi23-bloc-3/${{ inputs.name }}:${{ github.sha }}
+
+  update_infra:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout infra repo
+        uses: actions/checkout@v3
+        with:
+          repository: MAALSI23-BLOC-3/infra
+          token: ${{ secrets.INFRA_REPO_PAT }}
+          path: ${{ inputs.repo_path}}
+
+      - name: Update Image Tag in Kubernetes Manifest
+        run: |
+          cd {{ inputs.repo_path }}
+          sed -i "s|image: $IMAGE_NAME:.*|image: $IMAGE_NAME:${{github.sha }}|g" ${{ inputs.repo_path }}/${{ inputs.file_name}}
+
+      - name: Commit and Push Changes
+        run: |
+          cd {{ inputs.repo_path }}
+           git config --global user.email "actions@github.com"
+           git config --global user.name "GitHub Actions"
+           git add .
+           git commit -m "Update ${{ inputs.file_name }} image tag"
+           git push origin main
