@@ -9,33 +9,33 @@ on:
       - develop
 
 jobs:
-  # unit_integration_e2e_tests:
-  #   uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_unit_int.yml@develop
-  #   with:
-  #     node-version: 22.x
-  #     coverage_folder: ./coverage
-  #     coverage_artifact_name: coverage
-
-  # quality_tests:
-  #   needs: [unit_integration_e2e_tests]
-  #   uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@develop
-  #   secrets: inherit
-  #   with:
-  #     coverage_folder: ./coverage
-  #     coverage_artifact_name: coverage
-
-  # security_tests:
-  #   needs: [unit_integration_e2e_tests]
-  #   uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_security.yml@develop
-  #   secrets: inherit
-  #   with:
-  #     node-version: 22.x
-
-  publish_to_docker_pr_event:
-    # needs: [unit_integration_e2e_tests, quality_tests, security_tests]
-    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/cd_docker_img.yml@develop
+  unit_integration_e2e_tests:
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_unit_int.yml@develop
     with:
-      name: 'usermanagementms'
-      repo_path: 'userManagementMs'
-      file_name: 'usermanagement.yml'
+      node-version: 22.x
+      coverage_folder: ./coverage
+      coverage_artifact_name: coverage
+
+  quality_tests:
+    needs: [unit_integration_e2e_tests]
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@develop
     secrets: inherit
+    with:
+      coverage_folder: ./coverage
+      coverage_artifact_name: coverage
+
+  security_tests:
+    needs: [unit_integration_e2e_tests]
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_security.yml@develop
+    secrets: inherit
+    with:
+      node-version: 22.x
+
+  # publish_to_docker_pr_event:
+  #   # needs: [unit_integration_e2e_tests, quality_tests, security_tests]
+  #   uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/cd_docker_img.yml@develop
+  #   with:
+  #     name: 'usermanagementms'
+  #     repo_path: 'userManagementMs'
+  #     file_name: 'usermanagement.yml'
+  #   secrets: inherit

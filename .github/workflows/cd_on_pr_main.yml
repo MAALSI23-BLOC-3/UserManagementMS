@@ -1,0 +1,17 @@
+name: CD main
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+
+jobs:
+  publish_to_docker_pr_event:
+    if: ${{ github.event.pull_request.merged }}
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/cd_docker_img.yml@develop
+    with:
+      name: 'usermanagementms'
+      repo_path: 'userManagementMs'
+      file_name: 'usermanagement.yml'
+    secrets: inherit
