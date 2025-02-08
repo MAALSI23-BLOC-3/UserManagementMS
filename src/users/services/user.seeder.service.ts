@@ -2,6 +2,7 @@ import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
@@ -10,10 +11,11 @@ export class UsersSeederService implements OnApplicationBootstrap {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly configService: ConfigService,
   ) {}
 
   async onApplicationBootstrap() {
-    await this.seed();
+    if (this.configService.get('NODE_ENV') === 'dev') await this.seed();
   }
 
   async seed() {
