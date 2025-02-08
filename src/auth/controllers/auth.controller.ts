@@ -1,10 +1,14 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Post,
   Req,
   Request,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -15,7 +19,6 @@ import {
 } from '../dto/login.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import JwtRefreshGuard from '../guards/jwt-refresh.guard';
-import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { PayloadToken } from '../models/token.model';
 import { AuthService } from '../services/auth.service';
 
@@ -31,12 +34,15 @@ export class AuthController {
 
   @ApiBody({ type: LoginDto })
   @ApiResponse({ type: PostLoginResponse, status: 200 })
-  @UseGuards(LocalAuthGuard)
   @HttpCode(200)
   @Post('login')
-  login(@Request() req: { user: PayloadToken }) {
-    const user = req.user;
-    return this.authService.login(user);
+  login(@Body() body: LoginDto) {
+    try {
+      return this.authService.login(body);
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error, HttpStatus.NOT_ACCEPTABLE);
+    }
   }
 
   @ApiResponse({ status: 200 })
@@ -44,7 +50,11 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('logout')
   async logOut(@Request() req: { user: PayloadToken }) {
-    await this.authService.logout(req.user);
+    try {
+      await this.authService.logout(req.user);
+    } catch (error) {
+      throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+    }
   }
 
   @ApiResponse({ status: 200, type: GetRefreshResponse })
@@ -53,5 +63,17 @@ export class AuthController {
   @Get('refresh')
   refresh(@Req() req: AuthorizedRequest) {
     return this.authService.createAccessTokenFromRefreshToken(req.user);
+  }
+  @ApiResponse({ status: 200 })
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async validateUser(@Request() req: { user: PayloadToken }) {
+    try {
+      const user = await this.authService.validateToken(req.user);
+      return user;
+    } catch (error) {
+      throw new UnauthorizedException('Unauthorized');
+    }
   }
 }

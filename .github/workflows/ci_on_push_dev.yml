@@ -10,7 +10,7 @@ on:
 
 jobs:
   unit_integration_e2e_tests:
-    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_unit_int.yml@develop
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_unit_int.yml@main
     with:
       node-version: 22.x
       coverage_folder: ./coverage
@@ -18,7 +18,7 @@ jobs:
 
   quality_tests:
     needs: [unit_integration_e2e_tests]
-    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@develop
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_quality.yml@main
     secrets: inherit
     with:
       coverage_folder: ./coverage
@@ -26,7 +26,7 @@ jobs:
 
   security_tests:
     needs: [unit_integration_e2e_tests]
-    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_security.yml@develop
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/ci_security.yml@main
     secrets: inherit
     with:
       node-version: 22.x

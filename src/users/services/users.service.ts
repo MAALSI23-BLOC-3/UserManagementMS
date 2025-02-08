@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { createHash } from 'crypto';
@@ -32,7 +28,7 @@ export class UsersService {
       throw new BadRequestException();
     }
 
-    const createdUser = await this.userRepository.create(createUserDto);
+    const createdUser = this.userRepository.create(createUserDto);
     const saveUser = await this.userRepository.save(createdUser);
     // @ts-ignore
     delete saveUser.password;

@@ -9,7 +9,7 @@ on:
 jobs:
   publish_to_docker_pr_event:
     if: ${{ github.event.pull_request.merged }}
-    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/cd_docker_img.yml@develop
+    uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/cd_docker_img.yml@main
     with:
       name: 'usermanagementms'
       repo_path: 'userManagementMs'

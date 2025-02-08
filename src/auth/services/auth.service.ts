@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -30,11 +34,21 @@ export class AuthService {
     return null;
   }
 
-  async login(user: PayloadToken) {
-    const { accessToken } = this.jwtToken(user);
+  async validateToken(payload: PayloadToken) {
+    return this.usersService.findById(payload.id);
+  }
+
+  async login(userLogin: Partial<User>) {
+    if (!userLogin.email || !userLogin.password) {
+      throw new ForbiddenException('Email and password are required');
+    }
+    const user = await this.validateUser(userLogin.email, userLogin.password);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const { accessToken } = this.jwtToken({ role: user.role, id: user.id });
     const refreshToken = this.jwtRefreshToken(user);
     await this.usersService.setCurrentRefreshToken(refreshToken, user.id);
-
     return {
       accessToken,
       refreshToken,
@@ -55,7 +69,6 @@ export class AuthService {
       secret: this.configService.get('JWT_REFRESH_SECRET'),
       expiresIn: `${this.configService.get('REFRESH_TOKEN_EXPIRATION')}`,
     });
-
     return refreshToken;
   }
 

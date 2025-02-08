@@ -22,6 +22,14 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   readonly lastName: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly birthDate: Date;
+
+  @ApiProperty()
+  @IsString()
+  readonly phoneNumber: string;
 }
 
 export class CreateAdminDto extends CreateUserDto {
@@ -44,4 +52,12 @@ export class DefaultColumnsResponse extends CreateUserDto {
 
   @ApiProperty()
   readonly role: Role;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly birthDate: Date;
+
+  @ApiProperty()
+  @IsString()
+  readonly phoneNumber: string;
 }
