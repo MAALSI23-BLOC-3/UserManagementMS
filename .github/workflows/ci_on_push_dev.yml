@@ -36,6 +36,6 @@ jobs:
     uses: MAALSI23-BLOC-3/UserManagementMS/.github/workflows/cd_docker_img.yml@develop
     with:
       name: 'usermanagementms'
-      repo_path: 'productMS'
+      repo_path: 'productsMS'
       file_name: 'products.yml'
     secrets: inherit
