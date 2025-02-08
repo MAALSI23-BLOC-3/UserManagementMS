@@ -46,13 +46,14 @@ jobs:
           tags: ${{ env.REGISTRY }}/maalsi23-bloc-3/${{ inputs.name }}:${{ github.sha }}
 
   update_infra:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout infra repo
         uses: actions/checkout@v3
         with:
           repository: MAALSI23-BLOC-3/infra
-          token: ${{ secrets.INFRA_REPO_PAT }}
+          token: ${{ secrets.GHCR_PAT }}
           path: ${{ inputs.repo_path}}
 
       - name: Update Image Tag in Kubernetes Manifest
