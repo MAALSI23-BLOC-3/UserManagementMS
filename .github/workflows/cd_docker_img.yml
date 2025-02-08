@@ -1,0 +1,71 @@
+name: Github Package
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        type: string
+        required: true
+      repo_path:
+        type: string
+        required: true
+      file_name:
+        type: string
+        required: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Registry Login ${{ env.REGISTRY }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Check Data
+        run: |
+          echo ${{ env.REGISTRY }}
+          echo ${{ env.IMAGE_NAME }}
+          echo ${{ github.actor }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/maalsi23-bloc-3/${{ inputs.name }}:${{ github.sha }}
+
+  update_infra:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout infra repo
+        uses: actions/checkout@v4
+        with:
+          repository: MAALSI23-BLOC-3/infra
+          token: ${{ secrets.GHCR_PAT }}
+          path: ${{ inputs.repo_path}}
+
+      - name: Update Image Tag in Kubernetes Manifest
+        run: |
+          cd ${{ inputs.repo_path }}
+          sed -i 's|^\(\s*image:\s*\).*|\1${{ env.REGISTRY }}/maalsi23-bloc-3/${{ inputs.name }}:${{ github.sha }}|' ${{ inputs.repo_path }}/${{ inputs.file_name}}
+          cat  ${{ inputs.repo_path }}/${{ inputs.file_name}}
+          pwd
+          git status
+          git remote show origin
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add .
+          git commit -m "Update ${{ inputs.file_name }} image tag"
+          git push origin main
