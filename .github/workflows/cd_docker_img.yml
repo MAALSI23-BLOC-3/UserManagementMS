@@ -58,12 +58,12 @@ jobs:
 
       - name: Update Image Tag in Kubernetes Manifest
         run: |
-          cd {{ inputs.repo_path }}
+          cd ${{ inputs.repo_path }}
           sed -i "s|image: $IMAGE_NAME:.*|image: $IMAGE_NAME:${{github.sha }}|g" ${{ inputs.repo_path }}/${{ inputs.file_name}}
 
       - name: Commit and Push Changes
         run: |
-          cd {{ inputs.repo_path }}
+          cd ${{ inputs.repo_path }}
            git config --global user.email "actions@github.com"
            git config --global user.name "GitHub Actions"
            git add .
