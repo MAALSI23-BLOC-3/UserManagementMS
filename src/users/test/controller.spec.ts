@@ -51,6 +51,8 @@ describe('UsersController', () => {
         password: 'test',
         firstName: 'test',
         lastName: 'test',
+        birthDate: new Date(),
+        phoneNumber: '1234567890',
       };
       const result = {
         email: createUserDto.email,
@@ -73,6 +75,8 @@ describe('UsersController', () => {
         firstName: 'test',
         lastName: 'test',
         role: Role.ADMIN,
+        birthDate: new Date(),
+        phoneNumber: '1234567890',
       };
       const result = {
         email: createAdminDto.email,

@@ -11,6 +11,7 @@ import { User } from './users/entities/user.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
+
       useFactory: (configService: ConfigService) => {
         return {
           type: 'postgres',

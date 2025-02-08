@@ -36,6 +36,25 @@ export class User extends DefaultEntity {
   })
   role: Role;
 
+  @Column({
+    name: 'birth_date',
+    nullable: true,
+  })
+  birthDate: Date;
+
+  @Column({
+    name: 'phone_number',
+    nullable: true,
+  })
+  phoneNumber: string;
+
+  @Column({
+    default: 'active',
+    type: 'enum',
+    enum: ['active', 'delete', 'temp'],
+  })
+  status: string;
+
   @BeforeInsert()
   async hashPassword() {
     if (this.password) {
