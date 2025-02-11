@@ -32,7 +32,6 @@ async function bootstrap() {
     .setTitle('User management MS')
     .setDescription('Microservice to manage users and authentication')
     .setVersion('1.0')
-    .addTag('user')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
