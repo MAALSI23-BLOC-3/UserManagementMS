@@ -56,18 +56,20 @@ export class UsersController {
     return this.usersService.create(creatAdminDto);
   }
 
+  @ApiOperation({ summary: 'Get all users' })
+  @Roles(Role.ADMIN)
   @ApiResponse({
     status: 200,
     isArray: true,
     type: DefaultColumnsResponse,
   })
   @ApiBearerAuth('access-token')
-  @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
+  @ApiOperation({ summary: 'Get a user by id' })
   @ApiBearerAuth('access-token')
   @ApiResponse({
     status: 200,
@@ -79,6 +81,7 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
+  @ApiOperation({ summary: 'Update a user' })
   @ApiBearerAuth('access-token')
   @Roles(Role.ADMIN)
   @Patch(':id')
@@ -86,6 +89,7 @@ export class UsersController {
     return this.usersService.update(+id, updateUserDto);
   }
 
+  @ApiOperation({ summary: 'Delete a user' })
   @ApiBearerAuth('access-token')
   @Roles(Role.ADMIN)
   @Delete(':id')

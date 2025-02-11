@@ -11,7 +11,13 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import {
   GetRefreshResponse,
   LoginDto,
@@ -32,6 +38,7 @@ type AuthorizedRequest = Express.Request & {
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @ApiOperation({ summary: 'Login' })
   @ApiBody({ type: LoginDto })
   @ApiResponse({ type: PostLoginResponse, status: 200 })
   @HttpCode(200)
@@ -45,6 +52,7 @@ export class AuthController {
     }
   }
 
+  @ApiOperation({ summary: 'Logout' })
   @ApiResponse({ status: 200 })
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard)
@@ -57,6 +65,7 @@ export class AuthController {
     }
   }
 
+  @ApiOperation({ summary: 'Refresh token' })
   @ApiResponse({ status: 200, type: GetRefreshResponse })
   @ApiBearerAuth('refresh-token')
   @UseGuards(JwtRefreshGuard)
@@ -64,6 +73,8 @@ export class AuthController {
   refresh(@Req() req: AuthorizedRequest) {
     return this.authService.createAccessTokenFromRefreshToken(req.user);
   }
+
+  @ApiOperation({ summary: 'Validate user using their token' })
   @ApiResponse({ status: 200 })
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard)
